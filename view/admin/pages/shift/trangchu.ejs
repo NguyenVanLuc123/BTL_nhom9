@@ -1,0 +1,58 @@
+<main id="main" class="main">
+    <% if (messages.Success) { %>
+      <div class="alert alert-success" show-alert data-time="4000">
+        <%= messages.Success %>
+        <span close-alert style="margin-left: 25px; cursor: pointer;">X</span>
+      </div>
+    <% } %>
+  
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <table class="table datatable">
+                <thead>
+                  <tr>
+                    <th><b>MA Ca</b></th>
+                    <th><b>Ten Ca</b></th>
+                    <th><b>TimeIn</b></th>
+                    <th><b>TimeOut</b></th>
+                    <th><b>DayCreat</b></th>
+                    <th><b>Action</b></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% QLCa.forEach(function(item) { %>
+                    <tr>
+                      <td><%= item.MaC %></td>
+                      <td><%= item.TenC %></td>
+                      <td>
+                        <%= item.timeIn %>
+                      </td>
+                      <td>
+                        <%= item.timeOut %>
+                      </td>
+                      <td><%= item && item.DayCreate instanceof Date ? item.DayCreate.toISOString().split('T')[0] : '' %></td>
+                      <td class="Hanh-dong">
+                        <a href="<%= prefixAdmin %>/Shift/edit/<%=item.MaC %>" class="btn btn-warning "
+                          data-id="<%=item.MaC %>%>">edit</a>
+                        <button type="button" data-id="<%= item.MaC %>" button-deleted class="btn btn-danger">delete</button>
+                      </td>
+                    </tr>
+                  <% }); %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="add-user" style="margin-top: 30px;">
+      <a href="<%=prefixAdmin %>/Shift/CreatShift" class="btn btn-primary Add_SHIFT">
+        ADD SHIFT </a>
+    </div>
+  
+    <form action="" method="post" id="form-deleted-button" data-path="<%= prefixAdmin %>/Shift/deleted/"></form>
+  </main>
+  

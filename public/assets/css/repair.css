@@ -95,14 +95,194 @@ form {
     background-color: #F6F9FF !important;
     color: #4154F1 !important;
   }
-  table {
-    width: 100%;
-    border-collapse: collapse;
+
+  .Hanh-dong{
+    padding-top:0px!important;
+    padding-left: 0px !important
   }
   
-  td {
-    padding-left: 20px !important;
-   
+  button i {
+    pointer-events: none; /* Chặn sự kiện nhấp chuột từ icon */
   }
   
-  
+[ button-deleted] ,[fix ]{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    margin: 0px;
+  }
+  [ button-deleted]:hover i,[fix]:hover i{
+    color:#fff;
+  }
+  [ button-deleted] i{
+    color: #c82333;
+  }
+
+  [fix] i{
+    color:#28a745;
+  }
+  .add-user{
+    display: flex;
+    justify-content: end;
+  }
+  [add_user]{
+    margin-bottom: 25px;
+   margin-right: 30px;
+  }
+
+  /* hot thoai model */
+  .modal {
+    display: none;
+    position: fixed;
+    top: 20px; /* Khoảng cách từ trên cùng */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 400px; /* Chiều rộng mặc định cho màn hình lớn */
+    height: 400px; /* Chiều cao tự động theo nội dung */
+    justify-content: center;
+    align-items: flex-start;
+    z-index: 9999; /* Đảm bảo modal nằm trên các phần tử khác */
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    animation: slideDown 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-title {
+    font-size: 1em;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.modal-body {
+    font-size: 0.9em;
+    margin-bottom: 20px;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.delete-button {
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    font-size: 0.9em;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.cancel-button {
+    background-color: #bdc3c7;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    font-size: 0.9em;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive styles cho màn hình nhỏ hơn 600px (Điện thoại di động) */
+@media (max-width: 600px) {
+    .modal {
+        width: 80%; /* Modal chiếm 80% chiều rộng màn hình */
+        
+    }
+
+    .modal-content {
+        padding: 15px;
+    }
+
+    .modal-title {
+        font-size: 0.9em; /* Giảm kích thước chữ tiêu đề */
+    }
+
+    .modal-body {
+        font-size: 0.8em; /* Giảm kích thước chữ nội dung */
+    }
+
+    .modal-buttons {
+        gap: 5px; /* Giảm khoảng cách giữa các nút */
+    }
+
+    .delete-button, .cancel-button {
+        padding: 6px 12px; /* Giảm kích thước nút */
+        font-size: 0.8em; /* Giảm cỡ chữ nút */
+    }
+}
+
+/* Responsive styles cho màn hình từ 601px đến 1024px (Máy tính bảng) */
+@media (min-width: 601px) and (max-width: 1024px) {
+    .modal {
+        width: 60%; /* Modal chiếm 60% chiều rộng màn hình */
+    }
+
+    .modal-content {
+        padding: 18px;
+    }
+
+    .modal-title {
+        font-size: 1em;
+    }
+
+    .modal-body {
+        font-size: 0.9em;
+    }
+
+    .modal-buttons {
+        gap: 8px;
+    }
+
+    .delete-button, .cancel-button {
+        padding: 6px 12px;
+        font-size: 0.9em;
+    }
+}
+
+/* Responsive styles cho màn hình từ 1025px trở lên (Máy tính để bàn) */
+@media (min-width: 1025px) {
+    .modal {
+        width: 400px; /* Modal chiếm 400px chiều rộng */
+    }
+
+    .modal-content {
+        padding: 20px;
+    }
+
+    .modal-title {
+        font-size: 1.2em;
+    }
+
+    .modal-body {
+        font-size: 1em;
+    }
+
+    .modal-buttons {
+        gap: 8px;
+    }
+
+    .delete-button, .cancel-button {
+        padding: 6px 12px;
+        font-size: 1em;
+    }
+}

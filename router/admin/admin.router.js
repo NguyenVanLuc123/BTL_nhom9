@@ -8,6 +8,5 @@ router.patch("/edit/:Manv",controller.editPatch)
 router.delete("/deleted/:Manv",controller.deleted)
 router.get("/CreatAccount/:MaP",controller.CreatAccountGet)
 router.post("/CreatAccount/:MaP",validate.createAccount,controller.CreatAccountPost)
-
 module.exports=router
 

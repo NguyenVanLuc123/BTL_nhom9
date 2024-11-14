@@ -5,8 +5,27 @@
       <span close-alert style="margin-left: 25px; cursor: pointer;">X</span>
     </div>
   <% } %>
-
+  <% if (messages.error) { %>
+    <div class="alert alert-danger" show-alert data-time="4000">
+      <%= messages.error %>
+      <span close-alert style="margin-left: 25px; cursor: pointer;">X</span>
+    </div>
+  <% } %> 
+  <div class="pagetitle">
+    <h1>Data Department</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="<%= prefixAdmin %>/Account%>">Home</a></li>
+        <li class="breadcrumb-item active">Department</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
   <section class="section">
+    <div class="add-user" style="margin-top: 30px; margin-bottom: 25px;">
+      <a  data-bs-toggle="modal" data-bs-target="#modal" class="btn btn-outline-primary">
+        ADD DEPARTMENTS </a>
+        <%- include('../../partials/CreatDepartment.ejs') %>
+    </div>
     <div class="row">
       <div class="col-lg-12">
         <div class="card">
@@ -38,7 +57,7 @@
                     </td>
                     <td><%= item && item.DayCreat instanceof Date ? item.DayCreat.toISOString().split('T')[0] : '' %></td>
                     <td class="Hanh-dong">
-                      <button type="button" data-id="<%= item.MaP %>" button-deleted class="btn btn-danger">delete</button>
+                      <button type="button" data-id="<%= item.MaP %>" button-deleted  class="btn btn-danger"><i class="bi bi-trash"></i></button>
                     </td>
                   </tr>
                 <% }); %>
@@ -49,10 +68,6 @@
       </div>
     </div>
   </section>
-  <div class="add-user" style="margin-top: 30px;">
-    <a href="<%=prefixAdmin %>/Department/CreatDepartment" class="btn btn-primary Add_Deperments">
-      ADD DEPARTMENTS </a>
-  </div>
 
   <form action="" method="post" id="form-deleted-button" data-path="<%= prefixAdmin %>/Department/deleted/"></form>
 </main>

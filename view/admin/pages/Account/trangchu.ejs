@@ -5,9 +5,14 @@
         <span close-alert style="margin-left: 25px; cursor: pointer;">X</span>
     </div>
     <% } %>
+    <% if (messages.error) { %>
+      <div class="alert alert-danger" show-alert data-time="4000">
+        <%= messages.error %>
+        <span close-alert style="margin-left: 25px; cursor: pointer;">X</span>
+      </div>
+    <% } %>
       <div class="pagetitle">
         <h1>Data Account</h1>
-
       </div><!-- End Page Title -->
       <div class="accordion" id="accordionExample">
         <% PhongBan.forEach(function(item, index) { %>
@@ -22,7 +27,13 @@
             <div id="collapse<%= index + 1 %>" class="accordion-collapse collapse <%= index === 0 ? 'show' : '' %>"
               aria-labelledby="heading<%= index + 1 %>" data-bs-parent="#accordionExample">
               <div class="accordion-body">
+
                 <section class="section">
+                  <div class="add-user">
+                    <a data-bs-toggle="modal" data-bs-target="#modal<%= item.MaP %>"  id_department="<%=item.MaP%>"
+                      add_user class="btn btn-primary">ADD USER</a>
+                      <%- include('../../partials/CreatAccount.ejs', { staffItem: item }) %>
+                  </div>
                   <div class="row">
                     <div class="col-lg-12">
                       <div class="card">
@@ -40,7 +51,8 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <% staff.filter(function(staffItem) { return staffItem.MaP===item.MaP; }).forEach(function(staffItem) { %>
+                              <% staff.filter(function(staffItem) { return staffItem.MaP===item.MaP;
+                                }).forEach(function(staffItem) { %>
                                 <tr>
                                   <td>
                                     <%= staffItem.Manv %>
@@ -59,13 +71,17 @@
                                   </td>
                                   <td>
                                     <%= staffItem && staffItem.DayCreat instanceof Date ?
-                                    staffItem.DayCreat.toISOString().split('T')[0] : '' %>
+                                      staffItem.DayCreat.toISOString().split('T')[0] : '' %>
                                   </td>
                                   <td class="Hanh-dong">
-                                    <a href="<%= prefixAdmin %>/Account/edit/<%= staffItem.Manv %>" class="btn btn-warning "
-                                      data-id="<%= staffItem.Manv %>">edit</a>
+                                    <a data-bs-toggle="modal" data-bs-target="#modal<%= staffItem.Manv %>" fix
+                                      class="btn btn-outline-success" data-id="<%= staffItem.Manv %>"><i
+                                        class="bi bi-gear-wide"></i></a>
+                                        <%- include('../../partials/edit.ejs', { staffItem: staffItem }) %>
 
-                                    <button type="button" data-id="<%=staffItem.Manv%>" button-deleted class="btn btnbtn btn-danger ">delete</button>
+
+                                    <button type="button" data-id="<%=staffItem.Manv%>" button-deleted
+                                      class="btn btnbtn btn-danger "><i class="bi bi-trash"></i></button>
                                   </td>
                                 </tr>
                                 <% }); %>
@@ -76,9 +92,7 @@
                     </div>
                   </div>
                 </section>
-                <div class="add-user">
-                  <a href="<%=prefixAdmin %>/Account/CreatAccount/<%=item.MaP%>" id_department="<%=item.MaP%>" class="btn btn-primary">ADD USER</a>
-                </div>
+
               </div>
             </div>
           </div>

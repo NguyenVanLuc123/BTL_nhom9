@@ -18,18 +18,28 @@ if(show_alert){
 // and show-alert
 
 //button-deleted
-const form_deleted_Acount=document.querySelector("#form-deleted-button");
-const path=form_deleted_Acount.getAttribute("data-path");
+const form_deleted_Acount = document.querySelector("#form-deleted-button");
+const path = form_deleted_Acount.getAttribute("data-path");
+
 document.addEventListener('click', (event) => {
-    
     if (event.target && event.target.hasAttribute('button-deleted')) {
-        const isconfirm=confirm ("bạn có chắc chắn muốn xóa tài khoản này không");
-        if(isconfirm){
-        const ID_delete=event.target.getAttribute("data-id");
-        form_deleted_Acount.action=path + `${ID_delete}?_method=DELETE`;
-        form_deleted_Acount.submit();
-        }
-        
+        const ID_delete = event.target.getAttribute("data-id");
+
+        // Hiển thị modal
+        const modal = document.getElementById("custom-confirm-modal");
+        modal.style.display = "flex";
+
+        // Sự kiện cho nút "Xóa"
+        document.getElementById("confirm-delete").onclick = () => {
+            form_deleted_Acount.action = path + `${ID_delete}?_method=DELETE`;
+            form_deleted_Acount.submit();
+            modal.style.display = "none"; // Đóng modal
+        };
+
+        // Sự kiện cho nút "Hủy"
+        document.getElementById("confirm-cancel").onclick = () => {
+            modal.style.display = "none"; // Đóng modal
+        };
     }
 });
 
@@ -51,4 +61,5 @@ document.addEventListener("DOMContentLoaded", function () {
   });
   
 
-//end sliderbar
+// end sliderbar
+

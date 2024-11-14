@@ -1,0 +1,32 @@
+ <!-- Basic Modal -->
+ <div class="modal fade" id="modal" tabindex="-1" style="width: 500px;height: 680px; ">
+    <div class="modal-dialog" style="margin: 0px;">
+      <div class="modal-content">
+        <div class="modal-body">
+            <div >
+                <h2>Tạo Department </h2>
+                <form action="<%= prefixAdmin %>/Department/CreatDepartment"   method="post"  >
+                    <div class="form-group">
+                        <label for="MaP">Mã Phòng Ban:</label>
+                        <input type="text" id="MaP" name="MaP" value="" required>
+                    </div>
+        
+                    <div class="form-group">
+                        <label for="TenP">Tên Phòng:</label>
+                        <input type="text" id="TenP" name="TenP" value="" required>
+                    </div>
+        
+            
+        
+                    <div class="actions "  >
+                        
+                        <button type="submit" class="btn">Creat</button>
+                        <a  data-bs-dismiss="modal" class="btn btn-danger">Hủy</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+      </div>
+    </div>
+  </div><!-- End Basic Modal-->

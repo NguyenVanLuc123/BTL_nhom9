@@ -1,0 +1,83 @@
+<main id="main" class="main">
+    <div class="pagetitle">
+      <h1>Danh Sách Chấm Công</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="<%= prefixAdmin %>/Account%>">Home</a></li>
+          <li class="breadcrumb-item active">Timekeeping</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+  
+    <!-- Form tìm kiếm ngày -->
+    <form action="" method="get" class="search-form">
+      <label for="searchDate">Tìm kiếm theo ngày:</label>
+      <input type="date" id="searchDate" name="searchDate" value="<%= searchDate %>" />
+      <button type="submit" class="btn btn-primary" style="width: 100%; margin: 20px 0px 20px 0px; display: block; background-color: #218838;">Tìm kiếm</button>
+    </form>
+  
+    <% Object.keys(ChamCong).forEach(function(date) { %>
+        <div class="date-group">
+          <h2>Ngày: <%= date %></h2>
+      
+          <div class="accordion" id="accordionExample<%= date %>">
+            <% 
+              const groupedByDepartment = ChamCong[date].reduce((acc, item) => {
+                if (!acc[item.MaP]) acc[item.MaP] = { TenP: item.TenP, records: [] };
+                acc[item.MaP].records.push(item);
+                return acc;
+              }, {});
+
+              // Lọc và hiển thị chỉ phòng có MaP của người dùng
+              const department = groupedByDepartment[userMaP];
+              if (department) {
+            %>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="heading<%= userMaP %>">
+                  <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapse<%= date + '-' + userMaP %>" aria-expanded="true"
+                    aria-controls="collapse<%= date + '-' + userMaP %>">
+                     <%= department.TenP %>
+                  </button>
+                </h2>
+                <div id="collapse<%= date + '-' + userMaP %>" class="accordion-collapse collapse show"
+                  aria-labelledby="heading<%= userMaP %>" data-bs-parent="#accordionExample<%= date %>">
+                <div class="accordion-body">
+                  <table class="table datatable">
+                    <thead>
+                      <tr>
+                        <th>MANV</th>
+                        <th>Tên Nhân Viên</th>
+                        <th>Giờ Vào</th>
+                        <th>Giờ Ra</th>
+                        <th>Trạng Thái</th>
+                        <th>Ngày</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% department.records.forEach(function(record) { %>
+                        <tr>
+                          <td><%= record.Manv %></td>
+                          <td><%= record.TenNv %></td>
+                          <td><%= record.timeIn %></td>
+                          <td><%= record.timeOut %></td>
+                          <td>
+                            <% if (record.Status === 1) { %>
+                              <span style="color: green;">Đúng Giờ</span>
+                            <% } else { %>
+                              <span style="color: red;">Muộn Giờ</span>
+                            <% } %>
+                          </td>
+                          <td><%= record.DayAt.toISOString().split('T')[0] %></td>
+                        </tr>
+                      <% }); %>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <% } %> <!-- Kết thúc kiểm tra phòng -->
+          </div>
+        </div>
+      <% }); %>
+</main>

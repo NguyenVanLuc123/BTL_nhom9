@@ -1,5 +1,5 @@
 //show-alert
-
+console.log(1)
 const show_alert=document.querySelector("[show-alert]");
 
 if(show_alert){
@@ -24,14 +24,20 @@ const path = form_deleted_Acount.getAttribute("data-path");
 document.addEventListener('click', (event) => {
     if (event.target && event.target.hasAttribute('button-deleted')) {
         const ID_delete = event.target.getAttribute("data-id");
-
+        const MaP=event.target.getAttribute("data-MaP");
+      
         // Hiển thị modal
         const modal = document.getElementById("custom-confirm-modal");
         modal.style.display = "flex";
 
         // Sự kiện cho nút "Xóa"
         document.getElementById("confirm-delete").onclick = () => {
+            if(MaP){
+                form_deleted_Acount.action = path + `${ID_delete}/${MaP}?_method=DELETE`;
+            }
+            else{
             form_deleted_Acount.action = path + `${ID_delete}?_method=DELETE`;
+            }
             form_deleted_Acount.submit();
             modal.style.display = "none"; // Đóng modal
         };
@@ -62,4 +68,29 @@ document.addEventListener("DOMContentLoaded", function () {
   
 
 // end sliderbar
+// preview_image
 
+const upload_image = document.querySelector("[upload-image]");
+
+if (upload_image) {
+    const input_image = document.querySelector("[upload-image-input]");
+    const preview_image = document.querySelector("[upload-image-preview]");
+
+    input_image.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        
+        if (file) {
+            // Kiểm tra định dạng file
+            if (!file.type.startsWith("image/")) {
+                alert("Vui lòng chọn file ảnh hợp lệ.");
+                input_image.value = ""; // Reset input
+                preview_image.src = ""; // Reset preview
+                return;
+            }
+            preview_image.src = URL.createObjectURL(file);
+        }
+    });
+}
+
+
+//END preview_image

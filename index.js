@@ -2,6 +2,8 @@ const express = require('express');
 var methodOverride = require('method-override');
 const expressLayouts = require('express-ejs-layouts');
 const router = require('./router/admin/index.router');
+const router_client=require("./router/client/index.router")
+const router_manager=require('./router/manager/index.router')
 const systemconfig = require("./config/system");
 const flash = require('express-flash');
 const session = require('express-session');
@@ -25,15 +27,16 @@ app.use(flash());
 app.use(expressLayouts);
 app.set('views', `${__dirname}/view`);
 app.set('view engine', 'ejs');
-app.set('layout', 'admin/layout/default'); // Thiết lập layout mặc định
+app.set('layout', 'admin/layout/default'); 
 
 app.use(express.static(`${__dirname}/public`));
 
 // Thiết lập kết nối với MySQL
 app.locals.prefixAdmin = systemconfig.prefixAdmin;
-
+app.locals.prefixManager = systemconfig.prefixManager;
 router(app);
-
+router_client(app);
+router_manager(app);
 // Khởi động ứng dụng Express
 app.listen(port, () => {
   console.log(`Ứng dụng đang chạy tại http://localhost:${port}`);

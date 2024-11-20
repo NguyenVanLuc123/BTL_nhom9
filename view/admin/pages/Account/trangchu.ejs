@@ -59,8 +59,19 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <%staff.filter(function(staffItem) { return staffItem.MaP===item.MaP && staffItem.Chucv !== 'manager';
-                          }).forEach(function(staffItem) { %>
+                          <% 
+                          // Lọc danh sách staff dựa trên quyền của Manager
+                          const filteredStaff = staff.filter(staffItem => {
+                            if (Manager[0].Chucv === 'admin') {
+                              return true; // Admin xem tất cả
+                            }
+                            // Manager chỉ xem nhân viên không phải manager và thuộc phòng ban của mình
+                            return staffItem.MaP === Manager[0].MaP && staffItem.Chucv !== 'manager';
+                          });
+
+                          filteredStaff.filter(staffItem => staffItem.MaP === item.MaP)
+                            .forEach(staffItem => { 
+                          %>
                             <tr>
                               <td><%= staffItem.Manv %></td>
                               <td><%= staffItem.TenNv %></td>

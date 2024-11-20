@@ -22,7 +22,13 @@
 
       <div class="accordion" id="accordionExample<%= date %>">
         <% 
-          const groupedByDepartment = ChamCong[date].reduce((acc, item) => {
+          // Lọc dữ liệu dựa trên quyền của Manager
+          const filteredRecords = Manager[0].Chucv === 'admin' 
+            ? ChamCong[date] 
+            : ChamCong[date].filter(record => record.MaP === Manager[0].MaP);
+
+          // Nhóm dữ liệu theo MaP
+          const groupedByDepartment = filteredRecords.reduce((acc, item) => {
             if (!acc[item.MaP]) acc[item.MaP] = { TenP: item.TenP, records: [] };
             acc[item.MaP].records.push(item);
             return acc;

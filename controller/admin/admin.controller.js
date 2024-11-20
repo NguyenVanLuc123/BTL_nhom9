@@ -1,6 +1,6 @@
 const database = require('../../model/connection');
 const systemconfig = require("../../config/system");
-
+const Token_rondom= require("../../helper/randomToken")
 module.exports.trangchu = async (req, res) => {
   const title = "Danh sách tài khoản";
   const values = ["false"];
@@ -81,17 +81,17 @@ module.exports.deleted = async (req, res) => {
 module.exports.CreatAccountPost = async (req, res) => {
   const { MANV, Name, office, image, Username, password } = req.body;
   const MaP = req.params.MaP;
-  
+  const token= Token_rondom.generateToken(20);
   // Sử dụng định dạng chuẩn MySQL (YYYY-MM-DD HH:MM:SS)
   const DayCreat = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
   try {
     const insertQuery = `
-      INSERT INTO staff (Manv, TenNv, Chucv, image, username, password, DayCreat, MaP, deleted)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, "false")
+      INSERT INTO staff (Manv, TenNv, Chucv, image, username, password, DayCreat, MaP,token, deleted)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?,?, "false")
     `;
   
-    const values = [MANV, Name, office, image, Username, password, DayCreat, MaP];
+    const values = [MANV, Name, office, image, Username, password, DayCreat, MaP,token];
     // Thực thi câu lệnh INSERT
     await database.model(insertQuery, values);
     req.flash('Success', `Tạo Tài Khoản Thành Công !`);
@@ -101,3 +101,8 @@ module.exports.CreatAccountPost = async (req, res) => {
     res.status(500).send('Có lỗi xảy ra khi cập nhật');
   }
 };
+
+module.exports.logout=(req,res)=>{
+  res.clearCookie("token");
+  res.redirect(`${systemconfig.prefixAdmin}/login`)
+}

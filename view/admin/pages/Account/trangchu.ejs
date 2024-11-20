@@ -4,99 +4,97 @@
       <%= messages.Success %>
         <span close-alert style="margin-left: 25px; cursor: pointer;">X</span>
     </div>
-    <% } %>
-    <% if (messages.error) { %>
-      <div class="alert alert-danger" show-alert data-time="4000">
-        <%= messages.error %>
+  <% } %>
+  <% if (messages.error) { %>
+    <div class="alert alert-danger" show-alert data-time="4000">
+      <%= messages.error %>
         <span close-alert style="margin-left: 25px; cursor: pointer;">X</span>
-      </div>
-    <% } %>
-      <div class="pagetitle">
-        <h1>Data Account</h1>
-      </div><!-- End Page Title -->
-      <div class="accordion" id="accordionExample">
-        <% PhongBan.forEach(function(item, index) { %>
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="heading<%= index + 1 %>"> <!-- Tạo ID động cho header -->
-              <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                data-bs-target="#collapse<%= index + 1 %>" aria-expanded="true"
-                aria-controls="collapse<%= index + 1 %>">
-                <%= item.TenP %> <!-- Hiển thị tên phòng ban -->
-              </button>
-            </h2>
-            <div id="collapse<%= index + 1 %>" class="accordion-collapse collapse <%= index === 0 ? 'show' : '' %>"
-              aria-labelledby="heading<%= index + 1 %>" data-bs-parent="#accordionExample">
-              <div class="accordion-body">
+    </div>
+  <% } %>
+  
+  <div class="pagetitle">
+    <h1>Data Account</h1>
+  </div><!-- End Page Title -->
+  
+  <div class="accordion" id="accordionExample">
+    <% 
+    // Lọc danh sách PhongBan dựa trên quyền của Manager
+    const filteredPhongBan = Manager[0].Chucv === 'admin' 
+      ? PhongBan 
+      : PhongBan.filter(item => item.MaP === Manager[0].MaP);
+    filteredPhongBan.forEach((item, index) => { 
+    %>
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="heading<%= index + 1 %>">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapse<%= index + 1 %>" aria-expanded="true"
+            aria-controls="collapse<%= index + 1 %>">
+            <%= item.TenP %>
+          </button>
+        </h2>
+        <div id="collapse<%= index + 1 %>" class="accordion-collapse collapse <%= index === 0 ? 'show' : '' %>"
+          aria-labelledby="heading<%= index + 1 %>" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
 
-                <section class="section">
-                  <div class="add-user">
-                    <a data-bs-toggle="modal" data-bs-target="#modal<%= item.MaP %>"  id_department="<%=item.MaP%>"
-                      add_user class="btn btn-primary">ADD USER</a>
-                      <%- include('../../partials/CreatAccount.ejs', { staffItem: item }) %>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-12">
-                      <div class="card">
-                        <div class="card-body">
-                          <table class="table datatable">
-                            <thead>
-                              <tr>
-                                <th><b>MANV</b></th>
-                                <th><b>Name</b></th>
-                                <th><b>office</b></th>
-                                <th><b>Username</b></th>
-                                <th><b>password</b></th>
-                                <th><b>DayCreat</b></th>
-                                <th><b>Action</b></th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <% staff.filter(function(staffItem) { return staffItem.MaP===item.MaP;
-                                }).forEach(function(staffItem) { %>
-                                <tr>
-                                  <td>
-                                    <%= staffItem.Manv %>
-                                  </td>
-                                  <td>
-                                    <%= staffItem.TenNv %>
-                                  </td>
-                                  <td>
-                                    <%= staffItem.Chucv %>
-                                  </td>
-                                  <td>
-                                    <%= staffItem.username %>
-                                  </td>
-                                  <td>
-                                    <%= staffItem.password %>
-                                  </td>
-                                  <td>
-                                    <%= staffItem && staffItem.DayCreat instanceof Date ?
-                                      staffItem.DayCreat.toISOString().split('T')[0] : '' %>
-                                  </td>
-                                  <td class="Hanh-dong">
-                                    <a data-bs-toggle="modal" data-bs-target="#modal<%= staffItem.Manv %>" fix
-                                      class="btn btn-outline-success" data-id="<%= staffItem.Manv %>"><i
-                                        class="bi bi-gear-wide"></i></a>
-                                        <%- include('../../partials/edit.ejs', { staffItem: staffItem }) %>
-
-
-                                    <button type="button" data-id="<%=staffItem.Manv%>" button-deleted
-                                      class="btn btnbtn btn-danger "><i class="bi bi-trash"></i></button>
-                                  </td>
-                                </tr>
-                                <% }); %>
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
+            <section class="section">
+              <div class="add-user">
+                <a data-bs-toggle="modal" data-bs-target="#modal<%= item.MaP %>"  id_department="<%= item.MaP %>"
+                  add_user class="btn btn-primary">ADD USER</a>
+                <%- include('../../partials/CreatAccount.ejs', { staffItem: item }) %>
+              </div>
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="card">
+                    <div class="card-body">
+                      <table class="table datatable">
+                        <thead>
+                          <tr>
+                            <th><b>MANV</b></th>
+                            <th><b>Name</b></th>
+                            <th><b>Office</b></th>
+                            <th><b>Username</b></th>
+                            <th><b>Password</b></th>
+                            <th><b>DayCreat</b></th>
+                            <th><b>Action</b></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <%staff.filter(function(staffItem) { return staffItem.MaP===item.MaP && staffItem.Chucv !== 'manager';
+                          }).forEach(function(staffItem) { %>
+                            <tr>
+                              <td><%= staffItem.Manv %></td>
+                              <td><%= staffItem.TenNv %></td>
+                              <td><%= staffItem.Chucv %></td>
+                              <td><%= staffItem.username %></td>
+                              <td><%= staffItem.password %></td>
+                              <td>
+                                <%= staffItem && staffItem.DayCreat instanceof Date 
+                                  ? staffItem.DayCreat.toISOString().split('T')[0] 
+                                  : '' %>
+                              </td>
+                              <td class="Hanh-dong">
+                                <a data-bs-toggle="modal" data-bs-target="#modal<%= staffItem.Manv %>" fix
+                                  class="btn btn-outline-success" data-id="<%= staffItem.Manv %>">
+                                  <i class="bi bi-gear-wide"></i>
+                                </a>
+                                <%- include('../../partials/edit.ejs', { staffItem: staffItem }) %>
+                                <button type="button" data-id="<%= staffItem.Manv %>" button-deleted
+                                  class="btn btn-danger"><i class="bi bi-trash"></i></button>
+                              </td>
+                            </tr>
+                          <% }); %>
+                        </tbody>
+                      </table>
                     </div>
                   </div>
-                </section>
-
+                </div>
               </div>
-            </div>
+            </section>
+
           </div>
-          <% }); %>
+        </div>
       </div>
-      <form action="" method="post" id="form-deleted-button" data-path="<%= prefixAdmin %>/Account/deleted/"></form>
+    <% }); %>
+  </div>
+  <form action="" method="post" id="form-deleted-button" data-path="<%= prefixAdmin %>/Account/deleted/"></form>
 </main><!-- End #main -->

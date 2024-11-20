@@ -19,16 +19,20 @@
         <li class="nav-item dropdown pe-3">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <% if(Manager[0].Chucv=="manager"){%>
+              <img src="<%= Manager[0].image%>" alt="Profile" class="rounded-circle">
+              <%} else{%>
             <img src="/assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2">Admin</span>
+            <%}%>
+            <span class="d-none d-md-block dropdown-toggle ps-2"><%=Manager[0].Chucv%></span>
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6>Admin</h6>
-              
+              <h6><%=Manager[0].TenNv%></h6>
+              <span><%=Manager[0].MaP%></span>
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="<%= prefixAdmin %>/login">
+              <a class="dropdown-item d-flex align-items-center" href="<%= prefixAdmin %>/Account/logout">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Sign Out</span>
               </a>

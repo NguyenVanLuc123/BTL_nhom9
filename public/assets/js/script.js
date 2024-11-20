@@ -68,29 +68,48 @@ document.addEventListener("DOMContentLoaded", function () {
   
 
 // end sliderbar
-// preview_image
+// Preview multiple images
+const upload_images = document.querySelectorAll("[upload-image]");
 
-const upload_image = document.querySelector("[upload-image]");
+if (upload_images) {
+    upload_images.forEach(upload_image => {
+        const input_image = upload_image.querySelector("[upload-image-input]");
+        const preview_image = upload_image.querySelector("[upload-image-preview]");
 
-if (upload_image) {
-    const input_image = document.querySelector("[upload-image-input]");
-    const preview_image = document.querySelector("[upload-image-preview]");
+        if (input_image && preview_image) {
+            input_image.addEventListener("change", (e) => {
+                const file = e.target.files[0];
 
-    input_image.addEventListener("change", (e) => {
-        const file = e.target.files[0];
-        
-        if (file) {
-            // Kiểm tra định dạng file
-            if (!file.type.startsWith("image/")) {
-                alert("Vui lòng chọn file ảnh hợp lệ.");
-                input_image.value = ""; // Reset input
-                preview_image.src = ""; // Reset preview
-                return;
-            }
-            preview_image.src = URL.createObjectURL(file);
+                if (file) {
+                    // Kiểm tra định dạng file
+                    if (!file.type.startsWith("image/")) {
+                        alert("Vui lòng chọn file ảnh hợp lệ.");
+                        input_image.value = ""; // Reset input
+                        preview_image.src = ""; // Reset preview
+                        return;
+                    }
+                    preview_image.src = URL.createObjectURL(file);
+                }
+            });
         }
     });
 }
 
 
-//END preview_image
+
+//form submit
+
+document.addEventListener("DOMContentLoaded", () => {
+    const forms = document.querySelectorAll("form");
+
+    forms.forEach((form) => {
+        form.addEventListener("submit", (e) => {
+            const submitButton = form.querySelector("button[type='submit'], input[type='submit']");
+            if (submitButton) {
+                submitButton.disabled = true; // Vô hiệu hóa nút
+                submitButton.textContent = "Submitting..."; // Hiển thị trạng thái
+            }
+        });
+    });
+});
+//end formsubmit

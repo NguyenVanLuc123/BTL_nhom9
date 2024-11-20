@@ -5,11 +5,12 @@ const controller=require("../../controller/admin/admin.controller")
 const validate=require("../../validate/admin/Account.valaidate")
 const upload = multer()
 const uploadCloud =require("../../middleware/admin/UpLoadOnCloud_middleware")
-router.get("/",controller.trangchu)
+const requireAuth=require("../../middleware/admin/CheckAccount")
+router.get("/",requireAuth.requireAuth,controller.trangchu)
 
-router.patch("/edit/:Manv",upload.single('image'),uploadCloud.upload,controller.editPatch)
-router.delete("/deleted/:Manv",controller.deleted)
-
-router.post("/CreatAccount/:MaP", upload.single('image'),uploadCloud.upload,validate.createAccount,controller.CreatAccountPost)
+router.patch("/edit/:Manv",requireAuth.requireAuth,upload.single('image'),uploadCloud.upload,controller.editPatch)
+router.delete("/deleted/:Manv",requireAuth.requireAuth,controller.deleted)
+router.get('/logout',controller.logout)
+router.post("/CreatAccount/:MaP", upload.single('image'),requireAuth.requireAuth,uploadCloud.upload,validate.createAccount,controller.CreatAccountPost)
 module.exports=router
 

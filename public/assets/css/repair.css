@@ -282,3 +282,7 @@ form {
 span{
     margin-left: 10px !important;
 }
+
+.modal{
+    z-index: 9999999;
+}

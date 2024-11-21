@@ -9,6 +9,7 @@ module.exports.requireAuth= async(req,res,next)=>{
             const value=[req.cookies.token];
             const user= await  database.model(query, value);
             if(user||req.cookies.token=="admin"){
+               
                 if(req.cookies.token!="admin"){
                     res.locals.Manager=user;
                 }

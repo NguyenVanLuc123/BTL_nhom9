@@ -6,7 +6,7 @@ module.exports.trangchu = async (req, res) => {
 
   // Lấy ngày tìm kiếm từ query, nếu không có thì mặc định là ngày hiện tại
   const searchDate = req.query.searchDate ? req.query.searchDate : new Date().toISOString().split('T')[0]; // Ngày hiện tại
-console.log(searchDate);
+
   try {
     // Truy vấn dữ liệu từ ChamCong và kết hợp với PhongBan
     const queryChamCong = `
@@ -20,6 +20,8 @@ console.log(searchDate);
     const ChamCongResults = searchDate 
       ? await databases.model(queryChamCong, [...values, searchDate])
       : await databases.model(queryChamCong, values);
+    
+    const Phong= `select * from PhongBan where `
 
     // Nhóm dữ liệu theo ngày
     const groupedByDate = ChamCongResults.reduce((acc, record) => {
@@ -34,7 +36,7 @@ console.log(searchDate);
     res.render('admin/pages/timekeeping/trangchu', { 
       title, 
       ChamCong: groupedByDate,
-      searchDate // Truyền ngày tìm kiếm cho view
+      searchDate 
     });
 
   } catch (error) {

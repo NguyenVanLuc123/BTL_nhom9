@@ -5,7 +5,13 @@ module.exports.requireAuth= async(req,res,next)=>{
             res.redirect(`${systemconfig.prefixAdmin}/login`)
         }
         else{
-            const query = 'SELECT * FROM staff WHERE deleted = "false" AND token=?';
+            const query = `
+  SELECT staff.*, PhongBan.TenP 
+  FROM staff 
+  JOIN PhongBan ON staff.MaP = PhongBan.MaP 
+  WHERE staff.deleted = 'false' AND staff.token = ?;
+`;
+
             const value=[req.cookies.token];
             const user= await  database.model(query, value);
             if(user||req.cookies.token=="admin"){

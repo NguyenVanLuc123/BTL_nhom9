@@ -1,6 +1,7 @@
 <main id="main" class="main">
   <div class="pagetitle">
     <h1>Danh Sách Chấm Công</h1>
+    <h2><%= Manager[0].TenP%></h2>
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="<%= prefixAdmin %>/Account%>">Home</a></li>
@@ -19,7 +20,7 @@
   <% Object.keys(ChamCong).forEach(function(date) { %>
     <div class="date-group">
       <h2>Ngày: <%= date %></h2>
-
+      
       <div class="accordion" id="accordionExample<%= date %>">
         <% 
           // Lọc dữ liệu dựa trên quyền của Manager
